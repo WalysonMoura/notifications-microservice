@@ -1,4 +1,8 @@
-import { NotificationsRepository } from '@application/repositories/notifications-repository';
+import {
+  CountManyByRecipientIdParams,
+  FindByIdParams,
+  NotificationsRepository,
+} from '@application/repositories/notifications-repository';
 import { PrismaService } from '../prisma.service';
 import { Notification } from '@application/entities/notification';
 import { Injectable } from '@nestjs/common';
@@ -14,18 +18,39 @@ export class PrismaNotificationsrRepository implements NotificationsRepository {
     await this.prisma.notifications.create({ data: raw });
   }
 
-  findById({ notificationId }: FindByIdParams): Promise<Notification | null> {
+  async findById({
+    notificationId,
+  }: FindByIdParams): Promise<Notification | null> {
+    const notification = await this.prisma.notifications.findUnique({
+      where: {
+        id: notificationId,
+      },
+    });
+
+    if (!notification) {
+      return null;
+    }
+
+    return PrismaNotificationMapper.toDomain(notification);
+  }
+
+  async save(notification: Notification): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  save(notification: Notification): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-  countManyByRecipientId({
+
+  async countManyByRecipientId({
     recipientId,
   }: CountManyByRecipientIdParams): Promise<number> {
-    throw new Error('Method not implemented.');
+    const count = await this.prisma.notifications.count({
+      where: {
+        recipientId,
+      },
+    });
+
+    return count;
   }
-  findManyByRecipientId({
+
+  async findManyByRecipientId({
     recipientId,
   }: FindManyByRecipientIdParams): Promise<Notification[]> {
     throw new Error('Method not implemented.');
