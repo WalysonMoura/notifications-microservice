@@ -1,6 +1,7 @@
 import {
   CountManyByRecipientIdParams,
   FindByIdParams,
+  FindManyByRecipientIdParams,
   NotificationsRepository,
 } from '@application/repositories/notifications-repository';
 import { PrismaService } from '../prisma.service';
@@ -35,7 +36,14 @@ export class PrismaNotificationsrRepository implements NotificationsRepository {
   }
 
   async save(notification: Notification): Promise<void> {
-    throw new Error('Method not implemented.');
+    const raw = PrismaNotificationMapper.toPrisma(notification);
+
+    await this.prisma.notifications.update({
+      where: {
+        id: raw.id,
+      },
+      data: raw,
+    });
   }
 
   async countManyByRecipientId({
@@ -53,6 +61,12 @@ export class PrismaNotificationsrRepository implements NotificationsRepository {
   async findManyByRecipientId({
     recipientId,
   }: FindManyByRecipientIdParams): Promise<Notification[]> {
-    throw new Error('Method not implemented.');
+    const notifications = await this.prisma.notifications.findMany({
+      where: {
+        recipientId,
+      },
+    });
+   
+    return notifications.map(PrismaNotificationMapper.toDomain);
   }
 }
