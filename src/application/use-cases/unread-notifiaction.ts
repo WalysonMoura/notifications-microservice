@@ -1,4 +1,5 @@
 import { NotificationsRepository } from '@application/repositories/notifications-repository';
+
 import { NotificationNotFonud } from './errors/notifications-not-found';
 
 interface UnreadNotificationRequest {
@@ -22,7 +23,7 @@ export class UnreadNotification {
       throw new NotificationNotFonud();
     }
 
-    await  notification.unread();
+    await notification.unread();
 
     await this.notificationsRepository.save(notification);
   }

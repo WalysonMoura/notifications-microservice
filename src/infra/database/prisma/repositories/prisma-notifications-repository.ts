@@ -1,13 +1,14 @@
+import { Notification } from '@application/entities/notification';
 import {
   CountManyByRecipientIdParams,
   FindByIdParams,
   FindManyByRecipientIdParams,
   NotificationsRepository,
 } from '@application/repositories/notifications-repository';
-import { PrismaService } from '../prisma.service';
-import { Notification } from '@application/entities/notification';
 import { Injectable } from '@nestjs/common';
+
 import { PrismaNotificationMapper } from '../mappers/prisma-notification-mapper';
+import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class PrismaNotificationsrRepository implements NotificationsRepository {
@@ -66,7 +67,7 @@ export class PrismaNotificationsrRepository implements NotificationsRepository {
         recipientId,
       },
     });
-   
+
     return notifications.map(PrismaNotificationMapper.toDomain);
   }
 }
