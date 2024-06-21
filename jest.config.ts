@@ -2,10 +2,11 @@ import { Config } from 'jest';
 
 const config: Config = {
   moduleFileExtensions: ['js', 'json', 'ts'],
-  testRegex: '(/src/.*|(\\.|/)(test|spec))\\.ts$',
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.ts$',
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
+  roots: ['<rootDir>'],
   testPathIgnorePatterns: ['/node_modules/', 'dist'],
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
