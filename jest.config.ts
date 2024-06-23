@@ -6,8 +6,8 @@ const config: Config = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
-  roots: ['<rootDir>'],
-  testPathIgnorePatterns: ['/node_modules/', 'dist'],
+  roots: ['src', 'test'],
+  testPathIgnorePatterns: ['/node_modules/', 'dist', '/docker/'],
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
