@@ -1,6 +1,7 @@
 import { Notification } from '@/application/entities/notification';
 import {
   CreateParams,
+  CuntManyByRecipientIdParams,
   FindByIdParams,
   FindManyByRecipientIdParams,
   NotificationRepository,
@@ -38,6 +39,15 @@ export class InMemoryNotificationsRepository implements NotificationRepository {
     return notifications;
   }
 
+  async countManyByRecipientId({
+    recipientId,
+  }: CuntManyByRecipientIdParams): Promise<number> {
+    const count = await this.notifications.filter(
+      (notification) => notification.recipientId === recipientId,
+    ).length;
+
+    return count;
+  }
   async save({ notification }: SaveParams): Promise<void> {
     const notificationIndex = this.notifications.findIndex(
       (item) => item.id === notification.id,

@@ -11,6 +11,9 @@ export interface FindByIdParams {
 export interface FindManyByRecipientIdParams {
   recipientId: string;
 }
+export interface CuntManyByRecipientIdParams {
+  recipientId: string;
+}
 
 export interface SaveParams {
   notification: Notification;
@@ -26,6 +29,8 @@ export abstract class NotificationRepository {
     Notification[]
   >;
 
+  abstract countManyByRecipientId({
+    recipientId,
+  }: CuntManyByRecipientIdParams): Promise<number>;
   abstract save({ notification }: SaveParams): Promise<void>;
-  // abstract countManyByRecipientId()
 }
