@@ -2,6 +2,7 @@ import { Notification } from '@/application/entities/notification';
 import {
   CreateParams,
   FindByIdParams,
+  FindManyByRecipientIdParams,
   NotificationRepository,
   SaveParams,
 } from '@/application/repositories/notifications-repository';
@@ -25,6 +26,16 @@ export class InMemoryNotificationsRepository implements NotificationRepository {
     }
 
     return notification;
+  }
+
+  async findManyByRecipientId({
+    recipientId,
+  }: FindManyByRecipientIdParams): Promise<Notification[]> {
+    const notifications = await this.notifications.filter(
+      (notification) => notification.recipientId === recipientId,
+    );
+
+    return notifications;
   }
 
   async save({ notification }: SaveParams): Promise<void> {
