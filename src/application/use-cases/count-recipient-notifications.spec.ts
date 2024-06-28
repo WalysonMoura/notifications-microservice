@@ -18,7 +18,7 @@ describe('Count recipients notifications', () => {
 
     await notificationRepository.create({
       notification: makeNotification({
-        recipientId: 'fake-recipient-id',
+        recipientId: 'another-fake-recipient-id',
       }),
     });
 
